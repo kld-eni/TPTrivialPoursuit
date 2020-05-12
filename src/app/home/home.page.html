@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Open Trivia
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +9,34 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">Open Trivia</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+    <div *ngIf="!startedGame">
+      <h2>Votre pseudo</h2>
+      <input type="string" [(ngModel)]="name" />
+      <h2>Difficulté</h2>
+      <select [(ngModel)]="mode">
+        <option *ngFor="let option of optionsOrder" value="{{ option }}">{{ options[option] }}</option>
+      </select>
+      <div>
+        <input type="checkbox" [(ngModel)]="save" />
+        Sauvegarder mes informations
+      </div>
+      <p *ngIf="error && error.length > 0" class="error">{{ error }}</p>
+      <button (click)="start()">Commencer</button>
+    </div>
+
+    <div *ngIf="startedGame">
+      <div> Bienvenue {{ name }}</div>
+      <div>De quelle couleur est le cheval blanc d'henri IV ?</div>
+      <div>
+        <button *ngFor="let answer of answersOrder" (click)="selectAnswer(answer)">{{ answers[answer] }}</button>
+      </div>
+      <button *ngIf="selectedAnswer">Question suivante</button>
+    </div>
   </div>
 </ion-content>
